@@ -1,0 +1,89 @@
+2022-02-28 16:26:14 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "CREATE TABLE PROBLEM (
+                         ID BIGSERIAL NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                         DESCRIPTION VARCHAR NOT NULL,
+)[*]"; expected "identifier"; SQL statement:
+CREATE TABLE PROBLEM (
+                         id BIGSERIAL NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                         description VARCHAR NOT NULL,
+) [42001-200]
+2022-02-28 16:27:05 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "CREATE TABLE PROBLEM (
+                         ID BIGSERIAL NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                         DESCRIPTION VARCHAR NOT NULL,
+)[*]"; expected "identifier"; SQL statement:
+CREATE TABLE PROBLEM (
+                         id BIGSERIAL NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                         description VARCHAR NOT NULL,
+) [42001-200]
+2022-02-28 16:27:36 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "CREATE TABLE PROBLEM (
+                         ID BIGSERIAL NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                         DESCRIPTION VARCHAR NOT NULL,
+)[*]"; expected "identifier"; SQL statement:
+CREATE TABLE PROBLEM (
+                         id BIGSERIAL NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                         description VARCHAR NOT NULL,
+) [42001-200]
+2022-02-28 16:28:16 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "CREATE TABLE PROBLEM (
+                         ID BIGSERIAL NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                         DESCRIPTION VARCHAR NOT NULL,
+)[*]"; expected "identifier"; SQL statement:
+CREATE TABLE PROBLEM (
+                         id BIGSERIAL NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                         description VARCHAR NOT NULL,
+) [42001-200]
+2022-02-28 16:30:03 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "CREATE TABLE PROBLEM (
+                         ID BIGSERIAL NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                         DESCRIPTION VARCHAR NOT NULL,
+)[*]"; expected "identifier"; SQL statement:
+CREATE TABLE PROBLEM (
+                         id BIGSERIAL NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                         description VARCHAR NOT NULL,
+) [42001-200]
+2022-02-28 16:33:55 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "CREATE TABLE PROBLEM (
+                         ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                         DESCRIPTION VARCHAR NOT NULL,
+)[*]"; expected "identifier"; SQL statement:
+CREATE TABLE PROBLEM (
+                         id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                         description VARCHAR NOT NULL,
+) [42001-200]
+2022-02-28 16:33:55 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "PROBLEM" not found; SQL statement:
+CREATE TABLE WORSENING (
+                         id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                         description VARCHAR NOT NULL,
+                         problem_id INT NOT NULL,
+                         CONSTRAINT FK_WORSENING_PROBLEM FOREIGN KEY (problem_id) REFERENCES problem(id)
+) [42102-200]
+2022-02-28 16:33:55 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "WORSENING" not found; SQL statement:
+CREATE TABLE SOLUTION (
+                         id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                         description VARCHAR NOT NULL,
+                         worsening_id INT NOT NULL,
+                         CONSTRAINT FK_SOLUTION_WORSENING FOREIGN KEY (worsening_id) REFERENCES worsening(id)
+) [42102-200]
+2022-02-28 16:34:58 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "CREATE TABLE PROBLEM (
+                         ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,DESCRIPTION VARCHAR NOT NULL,
+)[*]"; expected "identifier"; SQL statement:
+CREATE TABLE PROBLEM (
+                         id int NOT NULL AUTO_INCREMENT PRIMARY KEY,description VARCHAR NOT NULL,
+) [42001-200]
+2022-02-28 16:34:58 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "PROBLEM" not found; SQL statement:
+CREATE TABLE WORSENING (
+                         id int NOT NULL AUTO_INCREMENT PRIMARY KEY,description VARCHAR NOT NULL,
+                         problem_id INT NOT NULL,CONSTRAINT FK_WORSENING_PROBLEM FOREIGN KEY (problem_id) REFERENCES problem(id)
+) [42102-200]
+2022-02-28 16:34:58 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "WORSENING" not found; SQL statement:
+CREATE TABLE SOLUTION (
+                         id int NOT NULL AUTO_INCREMENT PRIMARY KEY, description VARCHAR NOT NULL,
+worsening_id INT NOT NULL, CONSTRAINT FK_SOLUTION_WORSENING FOREIGN KEY (worsening_id) REFERENCES worsening(id)
+) [42102-200]
