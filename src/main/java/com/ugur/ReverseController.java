@@ -41,6 +41,8 @@ public class ReverseController {
         Long savedId = this.saveProblemToDbankReturnId(problemForm);
         VerschlimmerungForm worseningToSave = new VerschlimmerungForm();
         worseningToSave.setProblem_id(savedId.intValue());
+
+
         model.addAttribute("saveProblemForm", new ProblemForm());
         model.addAttribute("saveVerschlimmerungForm", worseningToSave);
 
@@ -50,13 +52,14 @@ public class ReverseController {
     @PostMapping("/verschlimm")
     public String saveVerschlimmerungForm(Model model, VerschlimmerungForm verschlimmerungForm) {
 
-
+        VerschlimmerungForm newVerschlimmerungForm = new VerschlimmerungForm();
+        newVerschlimmerungForm.setProblem_id(verschlimmerungForm.getProblem_id());
 
         String saveSQL = "INSERT INTO WORSENING(description, problem_id) VALUES (?,?)";
 
         jdbcTemplate.update(saveSQL, verschlimmerungForm.getDescription(), verschlimmerungForm.getProblem_id());
 
-        model.addAttribute("saveVerschlimmerungForm", new VerschlimmerungForm());
+        model.addAttribute("saveVerschlimmerungForm", newVerschlimmerungForm);
         return "verschlimmerungForm";
     }
 
@@ -84,6 +87,7 @@ public class ReverseController {
     public ReverseController(DataSource dataSource) {
         simpleJdbcInsert = new SimpleJdbcInsert(dataSource)
                 .withTableName("PROBLEM").usingGeneratedKeyColumns("id");
+
     }
 
     @Autowired
@@ -95,6 +99,9 @@ public class ReverseController {
         Number newId = simpleJdbcInsert.executeAndReturnKey(parameters);
         return (Long) newId;
     }
+
+
+
 
 
 
