@@ -27,6 +27,47 @@ import java.util.Map;
 @Controller
 public class ReverseController {
 
+    @GetMapping
+    public String getProblem(Model model) {
+
+        model.addAttribute("saveProblemForm", new ProblemForm());
+
+        return "problemForm";
+    }
+
+    @PostMapping("/saveProblem")
+    public String saveProblemForm(Model model, ProblemForm problemForm) {
+
+        Long savedId = this.saveProblemToDbankReturnId(problemForm);
+        VerschlimmerungForm worseningToSave = new VerschlimmerungForm();
+        worseningToSave.setProblem_id(savedId.intValue());
+        model.addAttribute("saveProblemForm", new ProblemForm());
+        model.addAttribute("saveVerschlimmerungForm", worseningToSave);
+
+        return "verschlimmerungForm";
+    }
+
+    @PostMapping("/verschlimm")
+    public String saveVerschlimmerungForm(Model model, VerschlimmerungForm verschlimmerungForm) {
+
+
+
+        String saveSQL = "INSERT INTO WORSENING(description, problem_id) VALUES (?,?)";
+
+        jdbcTemplate.update(saveSQL, verschlimmerungForm.getDescription(), verschlimmerungForm.getProblem_id());
+
+        model.addAttribute("saveVerschlimmerungForm", new VerschlimmerungForm());
+        return "verschlimmerungForm";
+    }
+
+
+
+
+
+
+
+
+
     @Bean
     public FlywayMigrationStrategy repairFlyway() {
         return flyway -> {
@@ -45,73 +86,16 @@ public class ReverseController {
                 .withTableName("PROBLEM").usingGeneratedKeyColumns("id");
     }
 
-    public long insertProblem(String problemText) {
-        Map<String, Object> parameters = new HashMap<>(1);
-        parameters.put("description", problemText);
-        Number newId = simpleJdbcInsert.executeAndReturnKey(parameters);
-        return (long) newId;
-    }
-
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    @GetMapping("/")
-    public String getProblem(Model model) {
-
-        model.addAttribute("saveProblemForm", new ProblemForm());
-
-        return "problemForm";
+    public long saveProblemToDbankReturnId(ProblemForm problemForm) {
+        Map<String, Object> parameters = new HashMap<>(1);
+        parameters.put("description", problemForm.getDescription());
+        Number newId = simpleJdbcInsert.executeAndReturnKey(parameters);
+        return (Long) newId;
     }
 
-    @PostMapping("/")
-    public String saveProblem(Model model, ProblemForm problemForm) {
-
-        long id = insertProblem(problemForm.getDescription());
-
-
-        jdbcTemplate.update("INSERT INTO PROBLEM VALUES (?,?)",problemForm.getId(), problemForm.getDescription());
-
-        model.addAttribute("saveProblemForm", new ProblemForm());
-
-        ProblemForm singleProblem = jdbcTemplate.queryForObject("SELECT * FROM PROBLEM WHERE ID = ?", new ProblemRowMapper(), id);
-
-        System.out.println(singleProblem);
-        //   long id = insertProblem(problemForm.getDescription());
-        // id = problemForm.getId();
-        // ProblemForm singleProblemForm = jdbcTemplate.queryForObject("SELECT * FROM PROBLEM WHERE ID = ?", new ProblemRowMapper(), id);
-        // model.addAttribute("singleProblem", singleProblemForm);
-        // model.addAttribute("problemFormList", new ProblemForm());
-        /*
-        String queryAllProblems = "SELECT * FROM PROBLEM";
-        List<ProblemForm> problemFormList = jdbcTemplate.query(queryAllProblems, new ProblemRowMapper()); */
-        // System.out.println(insertProblem(problemForm));
-        //return "redirect:/verschlimm";
-
-
-        return "problemForm";
-    }
-
-    @GetMapping("/verschlimm")
-    public String getVerschlimmerungForm(Model model) {
-        model.addAttribute("saveVerschlimmerungForm", new VerschlimmerungForm());
-
-        //    ProblemForm singleProblemForm = jdbcTemplate.queryForObject("SELECT * FROM PROBLEM WHERE ID = 1", new ProblemRowMapper());
-        return "/verschlimmerungForm";
-    }
-
-    @PostMapping("/verschlimm")
-    public String saveVerschlimmerungForm(Model model, ProblemForm problemForm, VerschlimmerungForm verschlimmerungForm) {
-
-        long idProblem = insertProblem(problemForm.getDescription());
-        model.addAttribute("saveVerschlimmerungForm", new VerschlimmerungForm());
-        idProblem = verschlimmerungForm.getProblem_id();
-
-        //  int problemID = jdbcTemplate.queryForObject("SELECT* FROM PERSON WHERE ID = 1", Integer.class);
-
-        jdbcTemplate.update("INSERT INTO WORSENING VALUES (?,?,?)", verschlimmerungForm.getId(), verschlimmerungForm.getDescription(),verschlimmerungForm.getProblem_id());
-
-        return "verschlimmerungForm";
-    }
 
 
 }

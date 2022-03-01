@@ -286,11 +286,10 @@
                     beschreiben.<br></h1>
                 <hr style="height:2px;border-width:0;color:gray;background-color:white">
 
-                <form class="form form-floating" method="post" action="/" th:object="${saveProblemForm}">
+                <form class="form form-floating" method="post" action="/saveProblem" th:object="${saveProblemForm}">
                     <textarea th:field="*{description}" class="form-control"
                               placeholder="Vergisst du bitte nicht, Je besser du es definierst, desto schneller findest du eine Lösung."
                               style="height: 110px ;margin-top:10px;"></textarea>
-                                <label>ProblemId</label><input th:field="*{id}">
                     <button type="submit" class="btn btn-success" style="float: right; margin-top:5px">Speichern
                     </button>
                     <button type="reset" class="btn btn-danger"

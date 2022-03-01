@@ -287,21 +287,15 @@
                     verschlimmern.<br></h1>
                 <hr style="height:2px;border-width:0;color:gray;background-color:white">
 
-                <h1 class="text-center" style="margin:0 0 0 0 ; color:red;">Problem</h1><br>
 
-                <div class="text-center"><i style="color:red;margin-top:-20px; ;" class="large material-icons">arrow_drop_down_circle</i>
-                </div>
-
-                <div class="text-center" style="color:red" th:text="${problemDescription}"></div>
+       <!--         <div class="text-center" style="color:red" th:text="${problemForm.getDescription()}"></div> -->
 
                 <form class="form" method="post" th:action="verschlimm" th:object="${saveVerschlimmerungForm}">
 
                     <textarea th:field="*{description}" class="form-control"
                               placeholder="Du kannst hier klicken und schreiben"
                               style="height: 110px ;margin-top:10px;"></textarea>
-                   <label> problem ID</label> <input th:field="*{problem_id}">
-                    <label> ID</label> <input th:field="*{id}">
-
+                  <input type="hidden" th:field="*{problem_id}">
 
                     <a href="/losung" type="button" role="button" class="btn btn-primary"
                        style="float: right;margin-left:10px;margin-top:5px; ">Nächste Seite</a>
