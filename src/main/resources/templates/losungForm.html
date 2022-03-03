@@ -332,15 +332,14 @@
                 <h1 class="text-center text-dark" style="margin:auto;"> Sammeln Sie Lösungen<br></h1>
                 <hr style="height:2px;border-width:0;color:gray;background-color:white">
 
-                <form class="form" method="post" th:action="losung" th:object="${saveLosungForm}">
+                <form class="form" method="post" action="/losung" th:object="${saveLosungForm}">
                     <h3>Welche Verschlimmerung möchtest du gelöst haben ?</h3>
 
-                    <select style="width: 725px;" th:field="*{indexOfVerschlimmerung}">
-
+                        <select th:field="*{worsening_id}">
                         <option th:each="k : ${verschlimmerungFormList}"
-                                th:text="${k.verschlimmerungForm}"
-                                th:value="${verschlimmerungFormList.indexOf(k)}"></option>
-                        <textarea th:field="*{losung}" class="form-control"
+                                th:text="${k.getDescription}"
+                                th:value="${k.getId}"></option> </select>
+                        <textarea th:field="*{description}" class="form-control"
                                   placeholder="Schreiben Sie hier clevere Lösungen"
                                   style="height: 50px ;margin-top:50px;"></textarea>
 
@@ -352,7 +351,7 @@
                         <button type="reset" class="btn btn-danger"
                                 style="float: right;margin-right:10px ;margin-top:5px; ">Löschen
                         </button>
-
+<!--
                         <p>
                         <div style="overflow-wrap:break-word;float:left; margin-left:5px; margin-top:30px;background-color:#fdffb6; height:auto; width:150px; "
                              class="rotate-1"
@@ -361,7 +360,7 @@
                             <p th:each="l : ${k.getLosungen()}" th:text="${l.losung}"></p>
                         </div>
                         </p>
-
+-->
                 </form>
 
             </div>

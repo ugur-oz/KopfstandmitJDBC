@@ -12,7 +12,7 @@ public class VerschlimmerungRowMapper implements RowMapper<VerschlimmerungForm> 
         VerschlimmerungForm result = new VerschlimmerungForm();
         result.setId(rs.getInt("id"));
         result.setDescription(rs.getString("description"));
-        result.setProblem_id(rs.getInt("worsening_id"));
+        result.setProblem_id(rs.getInt("problem_id"));
 
         return result;
     }

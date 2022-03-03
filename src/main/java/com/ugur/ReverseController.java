@@ -29,26 +29,20 @@ public class ReverseController {
 
     @GetMapping
     public String getProblem(Model model) {
-
         model.addAttribute("saveProblemForm", new ProblemForm());
-
         return "problemForm";
     }
 
     @PostMapping("/saveProblem")
     public String saveProblemForm(Model model, ProblemForm problemForm) {
-
         Long savedId = this.saveProblemToDbankReturnId(problemForm);
         VerschlimmerungForm worseningToSave = new VerschlimmerungForm();
         worseningToSave.setProblem_id(savedId.intValue());
 
-
         model.addAttribute("saveProblemForm", new ProblemForm());
         model.addAttribute("saveVerschlimmerungForm", worseningToSave);
-
         return "verschlimmerungForm";
     }
-
     @PostMapping("/verschlimm")
     public String saveVerschlimmerungForm(Model model, VerschlimmerungForm verschlimmerungForm) {
 
@@ -62,9 +56,27 @@ public class ReverseController {
         model.addAttribute("saveVerschlimmerungForm", newVerschlimmerungForm);
         return "verschlimmerungForm";
     }
+    @GetMapping("/losung")
+    public String getLosungForm(Model model) {
+        model.addAttribute("saveLosungForm", new LosungForm());
+        List<VerschlimmerungForm> verschlimmerungFormList = jdbcTemplate.query("SELECT * FROM WORSENING", new VerschlimmerungRowMapper());
+        model.addAttribute("verschlimmerungFormList", verschlimmerungFormList);
 
+        return "losungForm";
+    }
 
+    @PostMapping("/losung")
+    public String getLosungForm(Model model, LosungForm losungForm) {
 
+        model.addAttribute("saveLosungForm", new LosungForm());
+        String saveSQL = "INSERT INTO SOLUTIONS(description, WORSENING_ID) VALUES (?,?)";
+        jdbcTemplate.update(saveSQL, losungForm.getDescription(), losungForm.getWorsening_id());
+        List<VerschlimmerungForm> verschlimmerungFormList = jdbcTemplate.query("SELECT * FROM WORSENING", new VerschlimmerungRowMapper());
+        model.addAttribute("verschlimmerungFormList", verschlimmerungFormList);
+
+        return "losungForm";
+
+    }
 
 
 
@@ -101,23 +113,21 @@ public class ReverseController {
     }
 
 
-
-
-
-
 }
 
 
 
 
 
+        /*    problemFormList.get(verschlimmerungForm.getIndexOfProblem()).getVerschlimm().add(verschlimmerungForm);
+          verschlimmerungFormList.get(verschlimmerungFormList.getIndexOfVerschlimmerung()).getLosung().add(LosungForm)         */
 
 
 
 
 
-
-
+     /*    problemFormList.get(verschlimmerungForm.getIndexOfProblem()).getVerschlimm().add(verschlimmerungForm);
+          verschlimmerungFormList.get(verschlimmerungFormList.getIndexOfVerschlimmerung()).getLosung().add(LosungForm)         */
 
 
 
