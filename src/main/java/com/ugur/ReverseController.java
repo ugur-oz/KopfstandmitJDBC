@@ -51,8 +51,12 @@ public class ReverseController {
         newVerschlimmerungForm.setProblem_id(verschlimmerungForm.getProblem_id());
 
         String saveSQL = "INSERT INTO WORSENING(description, problem_id) VALUES (?,?)";
-
         jdbcTemplate.update(saveSQL, verschlimmerungForm.getDescription(), verschlimmerungForm.getProblem_id());
+
+
+        List<VerschlimmerungForm> verschlimmerungFormList = jdbcTemplate.query("SELECT * FROM WORSENING", new VerschlimmerungRowMapper());
+       model.addAttribute("verschlimmerungFormList",verschlimmerungFormList);
+
 
         model.addAttribute("saveVerschlimmerungForm", newVerschlimmerungForm);
         return "verschlimmerungForm";
