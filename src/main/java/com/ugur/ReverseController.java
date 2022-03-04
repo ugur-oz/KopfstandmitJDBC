@@ -64,8 +64,13 @@ public class ReverseController {
     @GetMapping("/losung")
     public String getLosungForm(Model model, @RequestParam  int problem_id) {
         model.addAttribute("saveLosungForm", new LosungForm());
-        List<VerschlimmerungForm> verschlimmerungFormList = jdbcTemplate.query("SELECT * FROM WORSENING WHERE problem_id = ?", new VerschlimmerungRowMapper(), problem_id);
-        model.addAttribute("verschlimmerungFormList", verschlimmerungFormList);
+        List<VerschlimmerungForm> verschlimmerungFormList = jdbcTemplate.query("SELECT * FROM WORSENING", new VerschlimmerungRowMapper());
+        model.addAttribute("verschlimmerungFormList",verschlimmerungFormList);
+
+        List<LosungForm> losungFormList = jdbcTemplate.query("SELECT * FROM SOLUTIONS", new LosungRowMapper());
+        model.addAttribute("verschlimmerungFormList",verschlimmerungFormList);
+        model.addAttribute("losungFormList",losungFormList);
+
 
         return "losungForm";
     }

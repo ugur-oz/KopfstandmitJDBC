@@ -476,7 +476,6 @@
     <div class="container bootstrap snippets bootdey">
         <div class="row">
             <ul class="notes">
-
                 <li>
                     <div style="overflow-wrap:break-word;float:left; margin-left:10px;background-color:#fdffb6; height:auto;" class="rotate-1"
                          th:each="k : ${verschlimmerungFormList}">
@@ -484,7 +483,6 @@
                         <p th:each="l : ${losungFormList}" th:if="${k.id == l.worsening_id}" th:text="${l.getDescription()}"></p>
                     </div>
                 </li>
-
             </ul>
         </div>
     </div>
