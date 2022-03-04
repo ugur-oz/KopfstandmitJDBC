@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.sql.DataSource;
 import java.sql.PreparedStatement;
@@ -57,31 +58,41 @@ public class ReverseController {
         return "verschlimmerungForm";
     }
     @GetMapping("/losung")
-    public String getLosungForm(Model model) {
+    public String getLosungForm(Model model, @RequestParam  int problem_id) {
         model.addAttribute("saveLosungForm", new LosungForm());
-        List<VerschlimmerungForm> verschlimmerungFormList = jdbcTemplate.query("SELECT * FROM WORSENING", new VerschlimmerungRowMapper());
+        List<VerschlimmerungForm> verschlimmerungFormList = jdbcTemplate.query("SELECT * FROM WORSENING WHERE problem_id = ?", new VerschlimmerungRowMapper(), problem_id);
         model.addAttribute("verschlimmerungFormList", verschlimmerungFormList);
 
         return "losungForm";
     }
 
     @PostMapping("/losung")
-    public String getLosungForm(Model model, LosungForm losungForm) {
+    public String getLosungForm(Model model, LosungForm losungForm, String problemId) {
 
         model.addAttribute("saveLosungForm", new LosungForm());
+
         String saveSQL = "INSERT INTO SOLUTIONS(description, WORSENING_ID) VALUES (?,?)";
         jdbcTemplate.update(saveSQL, losungForm.getDescription(), losungForm.getWorsening_id());
-        List<VerschlimmerungForm> verschlimmerungFormList = jdbcTemplate.query("SELECT * FROM WORSENING", new VerschlimmerungRowMapper());
+
+        List<VerschlimmerungForm> verschlimmerungFormList = jdbcTemplate.query("SELECT * FROM WORSENING WHERE worsening.problem_id = " + problemId, new VerschlimmerungRowMapper());
         model.addAttribute("verschlimmerungFormList", verschlimmerungFormList);
-
+        System.out.println(losungForm.getDescription());
         return "losungForm";
-
     }
+    @GetMapping("/ansicht")
+    public String showSeite(Model model, LosungForm losungForm, String problemId) {
+
+        List<VerschlimmerungForm> verschlimmerungFormList = jdbcTemplate.query("SELECT * FROM WORSENING WHERE worsening.problem_id = " + problemId, new VerschlimmerungRowMapper());
+        List<LosungForm> losungFormList = jdbcTemplate.query("SELECT * FROM SOLUTIONS", new LosungRowMapper());
 
 
 
+        model.addAttribute("verschlimmerungFormList", verschlimmerungFormList);
+        model.addAttribute("losungFormList", losungFormList);
 
-
+       // verschlimmerungFormList.get(losungForm.getIndexOfVerschlimmerung()).getLosungen().add(losungForm);
+        return "ansicht";
+    }
 
     @Bean
     public FlywayMigrationStrategy repairFlyway() {
@@ -111,30 +122,15 @@ public class ReverseController {
         Number newId = simpleJdbcInsert.executeAndReturnKey(parameters);
         return (Long) newId;
     }
-
-
 }
-
-
-
 
 
         /*    problemFormList.get(verschlimmerungForm.getIndexOfProblem()).getVerschlimm().add(verschlimmerungForm);
           verschlimmerungFormList.get(verschlimmerungFormList.getIndexOfVerschlimmerung()).getLosung().add(LosungForm)         */
 
 
-
-
-
      /*    problemFormList.get(verschlimmerungForm.getIndexOfProblem()).getVerschlimm().add(verschlimmerungForm);
           verschlimmerungFormList.get(verschlimmerungFormList.getIndexOfVerschlimmerung()).getLosung().add(LosungForm)         */
-
-
-
-
-
-
-
 
 
 /*

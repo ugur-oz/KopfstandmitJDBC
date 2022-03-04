@@ -479,10 +479,9 @@
 
                 <li>
                     <div style="overflow-wrap:break-word;float:left; margin-left:10px;background-color:#fdffb6; height:auto;" class="rotate-1"
-
                          th:each="k : ${verschlimmerungFormList}">
-                        <h4 th:text="${k.verschlimmerungForm}"></h4>
-                        <p th:each="l : ${k.getLosungen()}" th:text="${l.losung}"></p>
+                        <h4 th:text="${k.getDescription()}"></h4>
+                        <p th:each="l : ${losungFormList}" th:if="${k.id == l.worsening_id}" th:text="${l.getDescription()}"></p>
                     </div>
                 </li>
 

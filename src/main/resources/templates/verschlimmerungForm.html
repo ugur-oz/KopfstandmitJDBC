@@ -297,8 +297,10 @@
                               style="height: 110px ;margin-top:10px;"></textarea>
                   <input type="hidden" th:field="*{problem_id}">
 
-                    <a href="/losung" type="button" role="button" class="btn btn-primary"
+                    <a th:href="${'/losung?problem_id=' + saveVerschlimmerungForm.problem_id}" type="button" role="button" class="btn btn-primary"
                        style="float: right;margin-left:10px;margin-top:5px; ">Nächste Seite</a>
+
+
                     <button type="submit" class="btn btn-success" style="float: right; margin-top:5px">Speichern
                     </button>
                     <button type="reset" class="btn btn-danger"

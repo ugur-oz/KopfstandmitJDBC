@@ -338,13 +338,13 @@
                         <select th:field="*{worsening_id}">
                         <option th:each="k : ${verschlimmerungFormList}"
                                 th:text="${k.getDescription}"
-                                th:value="${k.getId}"></option> </select>
+                                th:value="${k.getId}"></option></select>
+                          <input name="problemId" id="problemId" th:value="${verschlimmerungFormList.get(0).getProblem_id}">
                         <textarea th:field="*{description}" class="form-control"
                                   placeholder="Schreiben Sie hier clevere Lösungen"
                                   style="height: 50px ;margin-top:50px;"></textarea>
 
-
-                        <a href="/ansicht" type="button" role="button" class="btn btn-primary"
+                        <a th:href="'/ansicht?problemId=' + ${verschlimmerungFormList.get(0).getProblem_id}" type="button" role="button" class="btn btn-primary"
                            style="float: right;margin-left:10px;margin-top:5px; ">Nächste Seite</a>
                         <button type="submit" class="btn btn-success" style="float: right; margin-top:5px">Speichern
                         </button>
