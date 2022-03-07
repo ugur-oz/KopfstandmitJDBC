@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
 
+
 </head>
 <style>
     body {
@@ -251,51 +252,6 @@
         margin-bottom: 0;
     }
 
-    ul.notes li div {
-        text-decoration: none;
-        color: #000;
-        display: block;
-        height: 210px;
-        width: 210px;
-        padding: 1em;
-        -moz-box-shadow: 5px 5px 7px #212121;
-        -webkit-box-shadow: 5px 5px 7px rgba(33, 33, 33, 0.7);
-        box-shadow: 5px 5px 7px rgba(33, 33, 33, 0.7);
-        -moz-transition: -moz-transform 0.15s linear;
-        -o-transition: -o-transform 0.15s linear;
-        -webkit-transition: -webkit-transform 0.15s linear;
-    }
-
-    ul.notes li {
-        margin: 20px 40px 50px 0px;
-        float: left;
-    }
-
-    ul.notes li, ul.tag-list li {
-        list-style: none;
-    }
-
-    ul.notes li div small {
-        position: absolute;
-        top: 5px;
-        right: 5px;
-        font-size: 10px;
-    }
-
-    div.rotate-1 {
-        -webkit-transform: rotate(-6deg);
-        -o-transform: rotate(-6deg);
-        -moz-transform: rotate(-6deg);
-    }
-
-    div.rotate-2 {
-        -o-transform: rotate(4deg);
-        -webkit-transform: rotate(4deg);
-        -moz-transform: rotate(4deg);
-        position: relative;
-        top: 5px;
-    }
-
 
 </style>
 
@@ -322,68 +278,15 @@
                     class="btn btn-light action-button" role="button" href="#">Sign Up</a></div>
         </div>
     </nav>
-
     <div class="container hero">
         <div class="row">
-
-            <div class="col-sm-8 offset-md-2">
+            <div class="col-md-8 offset-md-2 ">
                 <hr style="height:2px;border-width:0;color:gray;background-color:white">
-                <h1 class="text-center text-dark" style="margin:auto;"> Sammeln Sie Lösungen<br></h1>
+                <h1 class="text-center text-dark" style="margin:auto;"> Ups! Ein Fehler ist aufgetreten!<br></h1>
                 <hr style="height:2px;border-width:0;color:gray;background-color:white">
-
-                <form class="form" method="post" action="/losung" th:object="${saveLosungForm}">
-                    <h3>Welche Verschlimmerung möchtest du gelöst haben ?</h3>
-
-                    <select th:field="*{worsening_id}">
-                        <option th:each="k : ${verschlimmerungFormList}"
-                                th:text="${k.getDescription}"
-                                th:value="${k.getId}"></option>
-                    </select>
-                    <input name="problemId" id="problemId" th:value="${verschlimmerungFormList.get(0).getProblem_id}">
-                    <textarea th:field="*{description}" class="form-control"
-                              placeholder="Schreiben Sie hier clevere Lösungen"
-                              style="height: 50px ;margin-top:50px;"></textarea>
-
-                    <a th:href="'/ansicht?problemId=' + ${verschlimmerungFormList.get(0).getProblem_id}" type="button"
-                       role="button" class="btn btn-primary"
-                       style="float: right;margin-left:10px;margin-top:5px; ">Nächste Seite</a>
-                    <button type="submit" class="btn btn-success" style="float: right; margin-top:5px">Speichern
-                    </button>
-                    <button type="reset" class="btn btn-danger"
-                            style="float: right;margin-right:10px ;margin-top:5px; ">Löschen
-                    </button>
-
-                    <ul class="notes">
-                        <li>
-                            <div style="overflow-wrap:break-word;float:left; margin-left:10px;background-color:#fdffb6; height:auto;"
-                                 class="rotate-1"
-                                 th:each="k : ${verschlimmerungFormList}">
-                                <h4 th:text="${k.getDescription()}"></h4>
-                                <p th:each="l : ${losungFormList}" th:if="${k.id == l.worsening_id}"
-                                   th:text="${l.getDescription()}"></p>
-                            </div>
-                        </li>
-                    </ul>
-
-                    <!--
-
-
-
-                                            <p>
-                                            <div style="overflow-wrap:break-word;float:left; margin-left:5px; margin-top:30px;background-color:#fdffb6; height:auto; width:150px; "
-                                                 class="rotate-1"
-                                                 th:each="k : ${verschlimmerungFormList}">
-                                                <h4 th:text="${k.verschlimmerungForm}"></h4>
-                                                <p th:each="l : ${k.getLosungen()}" th:text="${l.losung}"></p>
-                                            </div>
-                                            </p>
-                    -->
-                </form>
             </div>
         </div>
-
-
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
 
         <div class="footer-basic" style="margin-top:100px;">

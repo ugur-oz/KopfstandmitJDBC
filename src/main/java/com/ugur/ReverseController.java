@@ -2,24 +2,21 @@ package com.ugur;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.flyway.FlywayMigrationStrategy;
+import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementCreator;
-import org.springframework.jdbc.core.PreparedStatementCreatorFactory;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.RequestDispatcher;
+import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
-import java.sql.PreparedStatement;
-import java.sql.Timestamp;
-import java.sql.Types;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +24,8 @@ import java.util.Map;
 
 @Controller
 public class ReverseController {
+
+
 
     @GetMapping
     public String getProblem(Model model) {
@@ -44,6 +43,7 @@ public class ReverseController {
         model.addAttribute("saveVerschlimmerungForm", worseningToSave);
         return "verschlimmerungForm";
     }
+
     @PostMapping("/verschlimm")
     public String saveVerschlimmerungForm(Model model, VerschlimmerungForm verschlimmerungForm) {
 
@@ -55,21 +55,20 @@ public class ReverseController {
 
 
         List<VerschlimmerungForm> verschlimmerungFormList = jdbcTemplate.query("SELECT * FROM WORSENING", new VerschlimmerungRowMapper());
-       model.addAttribute("verschlimmerungFormList",verschlimmerungFormList);
+        model.addAttribute("verschlimmerungFormList", verschlimmerungFormList);
 
 
         model.addAttribute("saveVerschlimmerungForm", newVerschlimmerungForm);
         return "verschlimmerungForm";
     }
+
     @GetMapping("/losung")
-    public String getLosungForm(Model model, @RequestParam  int problem_id) {
+    public String getLosungForm(Model model, @RequestParam int problem_id) {
         model.addAttribute("saveLosungForm", new LosungForm());
         List<VerschlimmerungForm> verschlimmerungFormList = jdbcTemplate.query("SELECT * FROM WORSENING", new VerschlimmerungRowMapper());
-        model.addAttribute("verschlimmerungFormList",verschlimmerungFormList);
-
         List<LosungForm> losungFormList = jdbcTemplate.query("SELECT * FROM SOLUTIONS", new LosungRowMapper());
-        model.addAttribute("verschlimmerungFormList",verschlimmerungFormList);
-        model.addAttribute("losungFormList",losungFormList);
+        model.addAttribute("verschlimmerungFormList", verschlimmerungFormList);
+        model.addAttribute("losungFormList", losungFormList);
 
 
         return "losungForm";
@@ -79,27 +78,26 @@ public class ReverseController {
     public String getLosungForm(Model model, LosungForm losungForm, String problemId) {
 
         model.addAttribute("saveLosungForm", new LosungForm());
-
         String saveSQL = "INSERT INTO SOLUTIONS(description, WORSENING_ID) VALUES (?,?)";
         jdbcTemplate.update(saveSQL, losungForm.getDescription(), losungForm.getWorsening_id());
-
-        List<VerschlimmerungForm> verschlimmerungFormList = jdbcTemplate.query("SELECT * FROM WORSENING WHERE worsening.problem_id = " + problemId, new VerschlimmerungRowMapper());
+        List<VerschlimmerungForm> verschlimmerungFormList = jdbcTemplate.query("SELECT * FROM WORSENING", new VerschlimmerungRowMapper());
+        List<LosungForm> losungFormList = jdbcTemplate.query("SELECT * FROM SOLUTIONS", new LosungRowMapper());
         model.addAttribute("verschlimmerungFormList", verschlimmerungFormList);
-        System.out.println(losungForm.getDescription());
+        model.addAttribute("losungFormList", losungFormList);
+
         return "losungForm";
     }
+
     @GetMapping("/ansicht")
     public String showSeite(Model model, LosungForm losungForm, String problemId) {
 
         List<VerschlimmerungForm> verschlimmerungFormList = jdbcTemplate.query("SELECT * FROM WORSENING WHERE worsening.problem_id = " + problemId, new VerschlimmerungRowMapper());
         List<LosungForm> losungFormList = jdbcTemplate.query("SELECT * FROM SOLUTIONS", new LosungRowMapper());
 
-
-
         model.addAttribute("verschlimmerungFormList", verschlimmerungFormList);
         model.addAttribute("losungFormList", losungFormList);
+        model.addAttribute("problemId",problemId);
 
-       // verschlimmerungFormList.get(losungForm.getIndexOfVerschlimmerung()).getLosungen().add(losungForm);
         return "ansicht";
     }
 
