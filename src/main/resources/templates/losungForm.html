@@ -253,8 +253,7 @@
                 </ul>
                 <form class="form-inline mr-auto" target="_self">
                 </form>
-                <span class="navbar-text"><a href="#" class="login">Log In</a></span><a
-                    class="btn btn-light action-button" role="button" href="#">Sign Up</a></div>
+                </div>
         </div>
     </nav>
 
@@ -271,7 +270,7 @@
 
 
                     <div>
-                        <select style="width:100%;" class="btn btn-primary dropdown-toggle" type="button"
+                        <select required style="width:100%;" class="btn btn-primary dropdown-toggle" type="button"
                                 id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
                                 aria-expanded="false" th:field="*{worsening_id}">
                             <option th:each="k : ${verschlimmerungFormList}"
@@ -280,7 +279,7 @@
                         </select></div>
                     <input type="hidden" name="problemId" id="problemId"
                            th:value="${verschlimmerungFormList.get(0).getProblem_id}">
-                    <textarea th:field="*{description}" class="form-control"
+                    <textarea required th:field="*{description}" class="form-control"
                               placeholder="Schreiben Sie hier clevere Lösungen"
                               style="height: 50px ;margin-top:50px;"></textarea>
 

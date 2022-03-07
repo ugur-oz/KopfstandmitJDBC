@@ -252,8 +252,7 @@
                 </ul>
                 <form class="form-inline mr-auto" target="_self">
                 </form>
-                <span class="navbar-text"><a href="#" class="login">Log In</a></span><a
-                    class="btn btn-light action-button" role="button" href="#">Sign Up</a></div>
+                </div>
         </div>
     </nav>
     <div class="container hero">
@@ -265,7 +264,7 @@
                 <hr style="height:2px;border-width:0;color:gray;background-color:white">
                 <form class="form" method="post" th:action="verschlimm" th:object="${saveVerschlimmerungForm}">
 
-                    <textarea th:field="*{description}" class="form-control"
+                    <textarea required th:field="*{description}" class="form-control"
                               placeholder="Du kannst hier klicken und schreiben"
                               style="height: 110px ;margin-top:10px;"></textarea>
                   <input type="hidden" th:field="*{problem_id}">
