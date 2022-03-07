@@ -23,9 +23,7 @@ import java.util.Map;
 
 
 @Controller
-public class ReverseController {
-
-
+public class ReverseController{
 
     @GetMapping
     public String getProblem(Model model) {
@@ -69,8 +67,6 @@ public class ReverseController {
         List<LosungForm> losungFormList = jdbcTemplate.query("SELECT * FROM SOLUTIONS", new LosungRowMapper());
         model.addAttribute("verschlimmerungFormList", verschlimmerungFormList);
         model.addAttribute("losungFormList", losungFormList);
-
-
         return "losungForm";
     }
 
