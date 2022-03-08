@@ -2,15 +2,13 @@
 <html xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Losungen</title>
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bitter:400,700">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
-    <link rel="stylesheet" href="assets/css/style.css">
-
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Bitter:400,700" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet">
+    <link href="assets/css/style.css" rel="stylesheet">
 </head>
 <style>
     body {
@@ -236,27 +234,7 @@
 
 <body>
 <div class="header-dark">
-    <nav class="navbar navbar-dark navbar-expand-md navigation-clean-search" style="background-color:#afc5ff;">
-        <div class="container-fluid"><a class="navbar-brand" href="https://www.ask-flip.com/method/9?localeCode=de">Was
-            ist Reverse-Brainstorming ?</a>
-            <button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span
-                    class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse"
-                 id="navcol-1">
-                <ul class="nav navbar-nav">
-                    <li class="nav-item" role="presentation"><a class="nav-link" href="/">Problembeschreibung</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" th:href="${'/verschlimm?problemId=' + problemId}">Verschlimmerung</a>
-                    </li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" th:href="'/losung?problemId=' + ${problemId}">Lösungsverschläge</a>
-                    </li>
-                    </li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" th:href="'/ansicht?problemId=' + ${problemId}">Ansicht</a></li>
-                </ul>
-                <form class="form-inline mr-auto" target="_self">
-                </form>
-            </div>
-        </div>
-    </nav>
+    <div th:replace="fragments/navbar :: navbarBasic"></div>
 
     <div class="container hero">
         <div class="row">
@@ -266,32 +244,32 @@
                 <h1 class="text-center text-dark" style="margin:auto;"> Sammeln Sie Lösungen<br></h1>
                 <hr style="height:2px;border-width:0;color:gray;background-color:white">
 
-                <form id="form" class="form" method="post" action="/losung" th:object="${saveLosungForm}">
+                <form action="/losung" class="form" id="form" method="post" th:object="${saveLosungForm}">
                     <h3>Welche Verschlimmerung möchtest du gelöst haben ?</h3>
-
                     <div>
-                        <select required style="width:100%;" class="btn btn-primary dropdown-toggle" type="button"
-                                id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                                aria-expanded="false" th:field="*{worsening_id}">
+                        <select aria-expanded="false" aria-haspopup="true" class="btn btn-primary dropdown-toggle"
+                                data-toggle="dropdown"
+                                id="dropdownMenuButton" required style="width:100%;"
+                                th:field="*{worsening_id}" type="button">
                             <option th:each="k : ${verschlimmerungFormList}"
                                     th:text="${k.getDescription}"
                                     th:value="${k.getId}"></option>
                         </select></div>
-                    <input type="hidden" name="problemId" id="problemId"
-                           th:value="${verschlimmerungFormList.get(0).getProblem_id}">
-                    <textarea id="problem123" required th:field="*{description}" class="form-control"
-                              placeholder="Schreiben Sie hier clevere Lösungen"
-                              style="height: 50px ;margin-top:50px;"></textarea>
-
-                    <a th:href="'/ansicht?problemId=' + ${verschlimmerungFormList.get(0).getProblem_id}" type="button"
-                       role="button" class="btn btn-primary"
-                       style="float: right;margin-left:10px;margin-top:5px;  color: white; ">Nächste Seite</a>
-                    <button type="submit" class="btn btn-success" style="float: right; margin-top:5px">Speichern
+                    <input id="problemId" name="problemId" th:value="${verschlimmerungFormList.get(0).getProblem_id}"
+                           type="hidden">
+                    <textarea class="form-control" id="problem123" placeholder="Schreiben Sie hier clevere Lösungen"
+                              required
+                              style="height: 50px ;margin-top:50px;"
+                              th:field="*{description}"></textarea>
+                    <a class="btn btn-primary" role="button"
+                       style="float: right;margin-left:10px;margin-top:5px;  color: white; "
+                       th:href="'/ansicht?problemId=' + ${verschlimmerungFormList.get(0).getProblem_id}"
+                       type="button">Nächste Seite</a>
+                    <button class="btn btn-success" style="float: right; margin-top:5px" type="submit">Speichern
                     </button>
-                    <button type="reset" class="btn btn-danger"
-                            style="float: right;margin-right:10px ;margin-top:5px; ">Löschen
+                    <button class="btn btn-danger" style="float: right;margin-right:10px ;margin-top:5px; "
+                            type="reset">Löschen
                     </button>
-
                 </form>
             </div>
         </div>
@@ -300,8 +278,8 @@
 <div class="col-12" style="width:100%;">
     <ul class="notes">
         <li style="width:100%; margin-top:-100px;">
-            <div style="overflow-wrap:break-word; margin-left:10px; margin-top:10px;background-color:#fdffb6; height:auto; float:left;"
-                 class="rotate-1"
+            <div class="rotate-1"
+                 style="overflow-wrap:break-word; margin-left:10px; margin-top:10px;background-color:#fdffb6; height:auto; float:left;"
                  th:each="k : ${verschlimmerungFormList}">
                 <h4 th:text="${k.getDescription()}"></h4>
                 <p th:each="l : ${losungFormList}" th:if="${k.id == l.worsening_id}"
@@ -310,25 +288,8 @@
         </li>
     </ul>
 </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script>
 
-
-
-<script type="text/javascript">
-    $(document).ready(function(){
-        $('#problem123').keypress(function(e){
-            if(e.which == 13){
-                // submit via ajax or
-                $('form').submit();
-            }
-        });
-    });
-</script>
-
-
-
+<div th:replace="fragments/enter :: submitMitEnter"></div>
 </body>
 
 </html>
