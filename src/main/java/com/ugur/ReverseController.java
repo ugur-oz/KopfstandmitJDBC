@@ -38,8 +38,7 @@ public class ReverseController {
         Long savedId = this.saveProblemToDbankReturnId(problemForm);
         VerschlimmerungForm worseningToSave = new VerschlimmerungForm();
         worseningToSave.setProblem_id(savedId.intValue());
-
-        model.addAttribute("saveProblemForm", new ProblemForm());
+        model.addAttribute("problemId", savedId.intValue());
         model.addAttribute("saveVerschlimmerungForm", worseningToSave);
         model.addAttribute("problemText", problemForm.getDescription());
         showProblem = problemForm.getDescription();
@@ -56,9 +55,8 @@ public class ReverseController {
         jdbcTemplate.update(saveSQL, verschlimmerungForm.getDescription(), verschlimmerungForm.getProblem_id());
 
 
-        List<VerschlimmerungForm> verschlimmerungFormList = jdbcTemplate.query("SELECT * FROM WORSENING", new VerschlimmerungRowMapper());
+        List<VerschlimmerungForm> verschlimmerungFormList = jdbcTemplate.query("SELECT * FROM WORSENING WHERE worsening.problem_id = " + verschlimmerungForm.getProblem_id(), new VerschlimmerungRowMapper());
         model.addAttribute("verschlimmerungFormList", verschlimmerungFormList);
-
         model.addAttribute("problemText", showProblem);
         model.addAttribute("saveVerschlimmerungForm", newVerschlimmerungForm);
         return "verschlimmerungForm";
@@ -66,7 +64,7 @@ public class ReverseController {
 
     @GetMapping("/verschlimm")
     public String saveVerschlimmerungForm(Model model, @RequestParam int problemId) {
-        List<VerschlimmerungForm> verschlimmerungFormList = jdbcTemplate.query("SELECT * FROM WORSENING", new VerschlimmerungRowMapper());
+        List<VerschlimmerungForm> verschlimmerungFormList = jdbcTemplate.query("SELECT * FROM WORSENING WHERE worsening.problem_id = " + problemId, new VerschlimmerungRowMapper());
         model.addAttribute("verschlimmerungFormList", verschlimmerungFormList);
 
         model.addAttribute("problemText", showProblem);
@@ -79,13 +77,13 @@ public class ReverseController {
     }
 
     @GetMapping("/losung")
-    public String getLosungForm(Model model, @RequestParam int problem_id) {
+    public String getLosungForm(Model model, @RequestParam int problemId) {
         model.addAttribute("saveLosungForm", new LosungForm());
-        List<VerschlimmerungForm> verschlimmerungFormList = jdbcTemplate.query("SELECT * FROM WORSENING", new VerschlimmerungRowMapper());
-        List<LosungForm> losungFormList = jdbcTemplate.query("SELECT * FROM SOLUTIONS", new LosungRowMapper());
+        List<VerschlimmerungForm> verschlimmerungFormList = jdbcTemplate.query("SELECT * FROM WORSENING WHERE worsening.problem_id = " + problemId, new VerschlimmerungRowMapper());
+        List<LosungForm> losungFormList = jdbcTemplate.query("SELECT * FROM SOLUTIONS WHERE solutions.WORSENING_ID = " + verschlimmerungFormList.get(0).getId() , new LosungRowMapper());
         model.addAttribute("verschlimmerungFormList", verschlimmerungFormList);
         model.addAttribute("losungFormList", losungFormList);
-        model.addAttribute("problem_id", problem_id);
+        model.addAttribute("problemId", problemId);
         return "losungForm";
     }
 
@@ -95,8 +93,9 @@ public class ReverseController {
         model.addAttribute("saveLosungForm", new LosungForm());
         String saveSQL = "INSERT INTO SOLUTIONS(description, WORSENING_ID) VALUES (?,?)";
         jdbcTemplate.update(saveSQL, losungForm.getDescription(), losungForm.getWorsening_id());
-        List<VerschlimmerungForm> verschlimmerungFormList = jdbcTemplate.query("SELECT * FROM WORSENING", new VerschlimmerungRowMapper());
-        List<LosungForm> losungFormList = jdbcTemplate.query("SELECT * FROM SOLUTIONS", new LosungRowMapper());
+        List<VerschlimmerungForm> verschlimmerungFormList = jdbcTemplate.query("SELECT * FROM WORSENING WHERE worsening.problem_id = " + problemId, new VerschlimmerungRowMapper());
+        List<LosungForm> losungFormList = jdbcTemplate.query("SELECT * FROM SOLUTIONS" , new LosungRowMapper());
+
         model.addAttribute("verschlimmerungFormList", verschlimmerungFormList);
         model.addAttribute("losungFormList", losungFormList);
         model.addAttribute("problemId", problemId);
