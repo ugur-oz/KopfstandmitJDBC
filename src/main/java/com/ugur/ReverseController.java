@@ -23,7 +23,9 @@ import java.util.Map;
 
 
 @Controller
-public class ReverseController{
+public class ReverseController {
+
+    String showProblem;
 
     @GetMapping
     public String getProblem(Model model) {
@@ -39,6 +41,8 @@ public class ReverseController{
 
         model.addAttribute("saveProblemForm", new ProblemForm());
         model.addAttribute("saveVerschlimmerungForm", worseningToSave);
+        model.addAttribute("problemText", problemForm.getDescription());
+        showProblem = problemForm.getDescription();
         return "verschlimmerungForm";
     }
 
@@ -55,8 +59,22 @@ public class ReverseController{
         List<VerschlimmerungForm> verschlimmerungFormList = jdbcTemplate.query("SELECT * FROM WORSENING", new VerschlimmerungRowMapper());
         model.addAttribute("verschlimmerungFormList", verschlimmerungFormList);
 
-
+        model.addAttribute("problemText", showProblem);
         model.addAttribute("saveVerschlimmerungForm", newVerschlimmerungForm);
+        return "verschlimmerungForm";
+    }
+
+    @GetMapping("/verschlimm")
+    public String saveVerschlimmerungForm(Model model, @RequestParam int problemId) {
+        List<VerschlimmerungForm> verschlimmerungFormList = jdbcTemplate.query("SELECT * FROM WORSENING", new VerschlimmerungRowMapper());
+        model.addAttribute("verschlimmerungFormList", verschlimmerungFormList);
+
+        model.addAttribute("problemText", showProblem);
+
+        VerschlimmerungForm newVerschlimmerungForm = new VerschlimmerungForm();
+        newVerschlimmerungForm.setProblem_id(problemId);
+        model.addAttribute("saveVerschlimmerungForm", newVerschlimmerungForm);
+        model.addAttribute("problemId", problemId);
         return "verschlimmerungForm";
     }
 
@@ -67,6 +85,7 @@ public class ReverseController{
         List<LosungForm> losungFormList = jdbcTemplate.query("SELECT * FROM SOLUTIONS", new LosungRowMapper());
         model.addAttribute("verschlimmerungFormList", verschlimmerungFormList);
         model.addAttribute("losungFormList", losungFormList);
+        model.addAttribute("problem_id", problem_id);
         return "losungForm";
     }
 
@@ -80,7 +99,7 @@ public class ReverseController{
         List<LosungForm> losungFormList = jdbcTemplate.query("SELECT * FROM SOLUTIONS", new LosungRowMapper());
         model.addAttribute("verschlimmerungFormList", verschlimmerungFormList);
         model.addAttribute("losungFormList", losungFormList);
-
+        model.addAttribute("problemId", problemId);
         return "losungForm";
     }
 
@@ -92,7 +111,7 @@ public class ReverseController{
 
         model.addAttribute("verschlimmerungFormList", verschlimmerungFormList);
         model.addAttribute("losungFormList", losungFormList);
-        model.addAttribute("problemId",problemId);
+        model.addAttribute("problemId", problemId);
 
         return "ansicht";
     }
