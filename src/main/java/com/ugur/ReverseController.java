@@ -96,6 +96,8 @@ public class ReverseController {
         List<VerschlimmerungForm> verschlimmerungFormList = jdbcTemplate.query("SELECT * FROM WORSENING WHERE worsening.problem_id = " + problemId, new VerschlimmerungRowMapper());
         List<LosungForm> losungFormList = jdbcTemplate.query("SELECT * FROM SOLUTIONS" , new LosungRowMapper());
 
+
+        model.addAttribute("selectedWorsening", jdbcTemplate.query("SELECT * FROM WORSENING WHERE id = " + losungForm.getWorsening_id(), new VerschlimmerungRowMapper() ));
         model.addAttribute("verschlimmerungFormList", verschlimmerungFormList);
         model.addAttribute("losungFormList", losungFormList);
         model.addAttribute("problemId", problemId);

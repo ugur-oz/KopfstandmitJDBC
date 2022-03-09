@@ -251,6 +251,8 @@
                                 data-toggle="dropdown"
                                 id="dropdownMenuButton" required style="width:100%;"
                                 th:field="*{worsening_id}" type="button">
+                            <option hidden selected
+                                    th:text="${selectedWorsening.getDescription}" th:value="${selectedWorsening.getId}"></option>
                             <option th:each="k : ${verschlimmerungFormList}"
                                     th:text="${k.getDescription}"
                                     th:value="${k.getId}"></option>
@@ -288,6 +290,8 @@
         </li>
     </ul>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
 
 <div th:replace="fragments/enter :: submitMitEnter"></div>
 </body>
