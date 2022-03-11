@@ -230,6 +230,7 @@
     }
 
 
+
 </style>
 
 <body>
@@ -247,13 +248,16 @@
                 <form action="/losung" class="form" id="form" method="post" th:object="${saveLosungForm}">
                     <h3>Welche Verschlimmerung möchtest du gelöst haben ?</h3>
                     <div>
-                        <select  aria-expanded="false" aria-haspopup="true" class="btn btn-primary dropdown-toggle"
+                        <div th:text="${worsening_id}"> </div>
+                        <select aria-expanded="false" aria-haspopup="true" class="btn btn-primary dropdown-toggle"
                                 data-toggle="dropdown"
                                 id="dropdownMenuButton" required style="width:100%;"
                                 th:field="*{worsening_id}" type="button">
-                            <option th:selected="${selectedWorseningId == k.getId}" th:each="k : ${verschlimmerungFormList}"
+                            <option th:each="k : ${verschlimmerungFormList}"
                                     th:text="${k.getDescription}"
-                                    th:value="${k.getId}"></option>
+                                    th:value="${k.getId}"
+                            ></option>
+
                         </select></div>
                     <input id="problemId" name="problemId" th:value="${verschlimmerungFormList.get(0).getProblem_id}"
                            type="hidden">
@@ -295,6 +299,7 @@
         var x = document.getElementById("dropdownMenuButton").value;
         document.getElementById("demo").innerHTML = x;
     }
+
 </script>
 <div th:replace="fragments/enter :: submitMitEnter"></div>
 </body>

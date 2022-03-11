@@ -89,14 +89,15 @@ public class ReverseController {
 
     @PostMapping("/losung")
     public String getLosungForm(Model model, LosungForm losungForm, String problemId) {
+        System.out.println(losungForm);
 
-        model.addAttribute("saveLosungForm", new LosungForm());
         String saveSQL = "INSERT INTO SOLUTIONS(description, WORSENING_ID) VALUES (?,?)";
         jdbcTemplate.update(saveSQL, losungForm.getDescription(), losungForm.getWorsening_id());
         List<VerschlimmerungForm> verschlimmerungFormList = jdbcTemplate.query("SELECT * FROM WORSENING WHERE worsening.problem_id = " + problemId, new VerschlimmerungRowMapper());
         List<LosungForm> losungFormList = jdbcTemplate.query("SELECT * FROM SOLUTIONS" , new LosungRowMapper());
 
-
+        losungForm.setDescription("");
+        model.addAttribute("saveLosungForm", losungForm);
         model.addAttribute("selectedWorsening", jdbcTemplate.query("SELECT * FROM WORSENING WHERE id = " + losungForm.getWorsening_id(), new VerschlimmerungRowMapper() ));
         model.addAttribute("verschlimmerungFormList", verschlimmerungFormList);
         model.addAttribute("losungFormList", losungFormList);
