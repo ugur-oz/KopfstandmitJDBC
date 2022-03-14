@@ -39,7 +39,6 @@ public class ReverseController {
 
     @PostMapping("/verschlimm")
     public String saveVerschlimmerungForm(Model model, VerschlimmerungForm verschlimmerungForm) {
-
         VerschlimmerungForm newVerschlimmerungForm = new VerschlimmerungForm();
         newVerschlimmerungForm.setProblem_id(verschlimmerungForm.getProblem_id());
         String saveSQL = "INSERT INTO WORSENING(description, problem_id) VALUES (?,?)";
